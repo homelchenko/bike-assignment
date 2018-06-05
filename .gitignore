@@ -1,0 +1,7 @@
+#IDE / editor
+.vs/
+*.suo
+
+#binaries
+bin/
+obj/
