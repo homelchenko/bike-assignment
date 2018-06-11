@@ -6,6 +6,21 @@ namespace BikeDistributor.Test
     public class OrderTest
     {
         [TestMethod]
+        public void Receipt_WhenThereIsNoItems_ShouldGenerateTextReceiptWithEmptyLineItemsSection()
+        { 
+            // Arrange
+            Order order = new Order("Anywhere Bike Shop");
+
+            // Act & Assert
+            AssertTextReceiptForOrderIs(
+                order,
+@"Order Receipt for Anywhere Bike Shop
+Sub-Total: $0.00
+Tax: $0.00
+Total: $0.00");
+        }
+
+        [TestMethod]
         public void Receipt_WhenPriceIsOneThousandAndThereIsOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
@@ -122,6 +137,19 @@ Sub-Total: $38,000.00
 Tax: $2,755.00
 Total: $40,755.00");
         }
+
+        [TestMethod]
+        public void HtmlReceipt_WhenThereIsNoItems_ShouldGenerateHtmlReceiptWithEmptyLineItemsSection()
+        { 
+            // Arrange
+            Order order = new Order("Anywhere Bike Shop");
+
+            // Act & Assert
+            AssertHtmlReceiptForOrderIs(
+                order,
+                @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><h3>Sub-Total: $0.00</h3><h3>Tax: $0.00</h3><h2>Total: $0.00</h2></body></html>");
+        }
+
 
         [TestMethod]
         public void HtmlReceipt_WhenPriceIsOneThousandAndThereIsOnlyOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperHtmlReceipt()
