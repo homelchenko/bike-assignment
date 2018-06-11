@@ -54,6 +54,21 @@ Total: $2,145.00");
         }
 
         [TestMethod]
+        public void Receipt_WhenPriceIsTwoThousandAndThereAreTenItems_ShouldApplyTwentyPercentDiscountAndGenerateProperTextReceipt()
+        {
+            // Arrange
+            Order order = CreateOneLineOrderFor(Bike.TwoThousand, 10);
+
+            // Act & Arrange
+            AssertTextReceiptForOrderIs(order,
+                @"Order Receipt for Anywhere Bike Shop
+	10 x Any brand Any model = $16,000.00
+Sub-Total: $16,000.00
+Tax: $1,160.00
+Total: $17,160.00");
+        }
+
+        [TestMethod]
         public void Receipt_WhenPriceIsFiveThousandAndThereIsOnlyOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
@@ -66,6 +81,21 @@ Total: $2,145.00");
 Sub-Total: $5,000.00
 Tax: $362.50
 Total: $5,362.50");
+        }
+
+        [TestMethod]
+        public void Receipt_WhenPriceIsFiveThousandAndThereAreFiveItems_ShouldApplyTwentyPercentDiscountAndGenerateProperTextReceipt()
+        {
+            // Arrange
+            Order order = CreateOneLineOrderFor(Bike.FiveThousand, 5);
+
+            // Act & Arrange
+            AssertTextReceiptForOrderIs(order, 
+@"Order Receipt for Anywhere Bike Shop
+	5 x Any brand Any model = $20,000.00
+Sub-Total: $20,000.00
+Tax: $1,450.00
+Total: $21,450.00");
         }
 
         [TestMethod]
