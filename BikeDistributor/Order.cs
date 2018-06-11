@@ -40,23 +40,44 @@ namespace BikeDistributor
 
             double tax = totalAmount * TaxRate;
 
-            result.AppendLine(string.Format("Sub-Total: {0}", totalAmount.ToString("C")));
-            result.AppendLine(string.Format("Tax: {0}", tax.ToString("C")));
-            result.Append(string.Format("Total: {0}", (totalAmount + tax).ToString("C")));
+            AddSubTotalSectionToTextReceipt(result, totalAmount);
+            AddTaxSectionToTextReceipt(result, tax);
+            AddTotalSectionToTextReceipt(result, totalAmount + tax);
 
             return result.ToString();
         }
 
+        private static void AddTotalSectionToTextReceipt(StringBuilder result, double total)
+        {
+            string totalSection = $"Total: {total:C}";
+
+            result.Append(totalSection);
+        }
+
+        private static void AddTaxSectionToTextReceipt(StringBuilder result, double tax)
+        {
+            string taxSection = $"Tax: {tax:C}";
+
+            result.AppendLine(taxSection);
+        }
+
+        private static void AddSubTotalSectionToTextReceipt(StringBuilder result, double totalAmount)
+        {
+            string subTotalSection = $"Sub-Total: {totalAmount:C}";
+
+            result.AppendLine(subTotalSection);
+        }
+
         private void AddHeaderToTextReceipt(StringBuilder result)
         {
-            string receiptHeader = string.Format("Order Receipt for {0}{1}", _company, Environment.NewLine);
+            string receiptHeader = $"Order Receipt for {_company}{Environment.NewLine}";
 
             result.Append(receiptHeader);
         }
 
         private static void AddLineItemToTextReceipt(StringBuilder result, Line line, double lineItemAmmount)
         {
-            string lineItem = string.Format("\t{0} x {1} {2} = {3}", line.Quantity, line.Bike.Brand, line.Bike.Model, lineItemAmmount.ToString("C"));
+            string lineItem = $"\t{line.Quantity} x {line.Bike.Brand} {line.Bike.Model} = {lineItemAmmount:C}";
             
             result.AppendLine(lineItem);
         }
