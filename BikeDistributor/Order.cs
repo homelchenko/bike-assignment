@@ -67,33 +67,25 @@ namespace BikeDistributor
 
         private static double CalculateDiscountForOneThousand(Line line)
         {
-            var discount = 0d;
-
-            if (line.Quantity >= 20)
-            {
-                discount = .1d;
-            }
-
-            return discount;
+            return CalculateAboveQuantityThresholdDiscount(line, 20, .1d);
         }
 
         private static double CalculateDiscountForTwoThousand(Line line)
         {
-            var discount = 0d;
-            if (line.Quantity >= 10)
-            {
-                discount = .2d;
-            }
-
-            return discount;
+            return CalculateAboveQuantityThresholdDiscount(line, 10, .2d);
         }
 
         private static double CalculateDiscountForFiveThousand(Line line)
         {
+            return CalculateAboveQuantityThresholdDiscount(line, 5, .2d);
+        }
+
+        private static double CalculateAboveQuantityThresholdDiscount(Line line, int quantityThreshold, double discountAfterThreshold)
+        {
             var discount = 0d;
-            if (line.Quantity >= 5)
+            if (line.Quantity >= quantityThreshold)
             {
-                discount = .2d;
+                discount = discountAfterThreshold;
             }
 
             return discount;
