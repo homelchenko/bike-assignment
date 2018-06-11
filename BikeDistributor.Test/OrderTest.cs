@@ -188,6 +188,23 @@ Total: $40,755.00");
                 @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><ul><li>5 x Any brand Any model = $20,000.00</li></ul><h3>Sub-Total: $20,000.00</h3><h3>Tax: $1,450.00</h3><h2>Total: $21,450.00</h2></body></html>");
         }
 
+        [TestMethod]
+        public void HtmlReceipt_WhenThereAreTwoLineItemsForDiscounts_ShouldGenerateProperHtmlReceipt()
+        { 
+            // Arrange
+            Bike firstBike = new Bike("First brand", "First model", Bike.OneThousand);
+            Bike secondBike = new Bike("Second brand", "Second model", Bike.FiveThousand);
+
+            var order = new Order("Anywhere Bike Shop");
+            order.AddLine(new Line(firstBike, 20));
+            order.AddLine(new Line(secondBike, 5));
+
+            // Act & Arrange
+            AssertHtmlReceiptForOrderIs(
+                order,
+                @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><ul><li>20 x First brand First model = $18,000.00</li><li>5 x Second brand Second model = $20,000.00</li></ul><h3>Sub-Total: $38,000.00</h3><h3>Tax: $2,755.00</h3><h2>Total: $40,755.00</h2></body></html>");
+        }
+
         private static Order CreateOneLineOrderFor(int price, int quantity)
         {
             Bike bike = new Bike("Any brand", "Any model", price);
