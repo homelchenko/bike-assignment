@@ -96,6 +96,27 @@ Total: $21,450.00");
         }
 
         [TestMethod]
+        public void Receipt_WhenThereAreTwoLineItemsForDiscounts_ShouldGenerateProperTextReceipt()
+        { 
+            // Arrange
+            Bike firstBike = new Bike("First brand", "First model", Bike.OneThousand);
+            Bike secondBike = new Bike("Second brand", "Second model", Bike.FiveThousand);
+
+            var order = new Order("Anywhere Bike Shop");
+            order.AddLine(new Line(firstBike, 20));
+            order.AddLine(new Line(secondBike, 5));
+
+            // Act & Arrange
+            AssertTextReceiptForOrderIs(order,
+@"Order Receipt for Anywhere Bike Shop
+	20 x First brand First model = $18,000.00
+	5 x Second brand Second model = $20,000.00
+Sub-Total: $38,000.00
+Tax: $2,755.00
+Total: $40,755.00");
+        }
+
+        [TestMethod]
         public void HtmlReceipt_WhenPriceIsOneThousandAndThereIsOnlyOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperHtmlReceipt()
         {
             // Arrange
