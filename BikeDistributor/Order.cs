@@ -60,11 +60,14 @@ namespace BikeDistributor
                 }
                 result.Append("</ul>");
             }
+
+            double tax = totalAmount * TaxRate;
+
             result.Append(string.Format("<h3>Sub-Total: {0}</h3>", totalAmount.ToString("C")));
-            var tax = totalAmount * TaxRate;
             result.Append(string.Format("<h3>Tax: {0}</h3>", tax.ToString("C")));
             result.Append(string.Format("<h2>Total: {0}</h2>", (totalAmount + tax).ToString("C")));
             result.Append("</body></html>");
+
             return result.ToString();
         }
 
