@@ -12,7 +12,8 @@ namespace BikeDistributor.Test
             Order order = CreateOneLineOrderFor(Bike.OneThousand, 1);
 
             // Act & Assert
-            AssertTextReceiptForOrderIs(order,
+            AssertTextReceiptForOrderIs(
+                order,
 @"Order Receipt for Anywhere Bike Shop
 	1 x Any brand Any model = $1,000.00
 Sub-Total: $1,000.00
@@ -27,7 +28,8 @@ Total: $1,072.50");
             Order order = CreateOneLineOrderFor(Bike.OneThousand, 20);
 
             // Act & Assert
-            AssertTextReceiptForOrderIs(order,
+            AssertTextReceiptForOrderIs(
+                order,
 @"Order Receipt for Anywhere Bike Shop
 	20 x Any brand Any model = $18,000.00
 Sub-Total: $18,000.00
@@ -42,7 +44,8 @@ Total: $19,305.00");
             Order order = CreateOneLineOrderFor(Bike.TwoThousand, 1);
 
             // Act & Arrange
-            AssertTextReceiptForOrderIs(order,
+            AssertTextReceiptForOrderIs(
+                order,
 @"Order Receipt for Anywhere Bike Shop
 	1 x Any brand Any model = $2,000.00
 Sub-Total: $2,000.00
@@ -57,7 +60,8 @@ Total: $2,145.00");
             Order order = CreateOneLineOrderFor(Bike.TwoThousand, 10);
 
             // Act & Arrange
-            AssertTextReceiptForOrderIs(order,
+            AssertTextReceiptForOrderIs(
+                order,
                 @"Order Receipt for Anywhere Bike Shop
 	10 x Any brand Any model = $16,000.00
 Sub-Total: $16,000.00
@@ -72,7 +76,8 @@ Total: $17,160.00");
             Order order = CreateOneLineOrderFor(Bike.FiveThousand, 1);
 
             // Act & Arrange
-            AssertTextReceiptForOrderIs(order, 
+            AssertTextReceiptForOrderIs(
+                order, 
 @"Order Receipt for Anywhere Bike Shop
 	1 x Any brand Any model = $5,000.00
 Sub-Total: $5,000.00
@@ -87,7 +92,8 @@ Total: $5,362.50");
             Order order = CreateOneLineOrderFor(Bike.FiveThousand, 5);
 
             // Act & Arrange
-            AssertTextReceiptForOrderIs(order, 
+            AssertTextReceiptForOrderIs(
+                order, 
 @"Order Receipt for Anywhere Bike Shop
 	5 x Any brand Any model = $20,000.00
 Sub-Total: $20,000.00
@@ -107,7 +113,8 @@ Total: $21,450.00");
             order.AddLine(new Line(secondBike, 5));
 
             // Act & Arrange
-            AssertTextReceiptForOrderIs(order,
+            AssertTextReceiptForOrderIs(
+                order,
 @"Order Receipt for Anywhere Bike Shop
 	20 x First brand First model = $18,000.00
 	5 x Second brand Second model = $20,000.00
