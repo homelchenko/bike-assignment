@@ -66,6 +66,7 @@ namespace BikeDistributor
             var totalAmount = 0d;
 
             var result = new StringBuilder();
+            result.Append("<html><body>");
 
             AddHeaderToHtmlReceipt(result);
 
@@ -85,24 +86,47 @@ namespace BikeDistributor
 
             double tax = totalAmount * TaxRate;
 
-            result.Append(string.Format("<h3>Sub-Total: {0}</h3>", totalAmount.ToString("C")));
-            result.Append(string.Format("<h3>Tax: {0}</h3>", tax.ToString("C")));
-            result.Append(string.Format("<h2>Total: {0}</h2>", (totalAmount + tax).ToString("C")));
+            AddSubTotalToHtmlReceipt(result, totalAmount);
+            AddTaxSectionToHtmlReceipt(result, tax);
+            AddTotalToHtmlReceipt(result, totalAmount + tax);
+            
             result.Append("</body></html>");
 
             return result.ToString();
         }
 
+        private static void AddTotalToHtmlReceipt(StringBuilder result, double total)
+        {
+            string totalSection = $"<h2>Total: {total:C}</h2>";
+
+            result.Append(totalSection);
+        }
+
+        private static void AddTaxSectionToHtmlReceipt(StringBuilder result, double tax)
+        {
+            string taxSection = $"<h3>Tax: {tax:C}</h3>";
+
+            result.Append(taxSection);
+        }
+
+        private static void AddSubTotalToHtmlReceipt(StringBuilder result, double totalAmount)
+        {
+            string subTotalSection = $"<h3>Sub-Total: {totalAmount:C}</h3>";
+
+            result.Append(subTotalSection);
+        }
+
         private void AddHeaderToHtmlReceipt(StringBuilder result)
         {
-            string receiptHeader = string.Format("<html><body><h1>Order Receipt for {0}</h1>", _company);
+            string receiptHeader = $"<h1>Order Receipt for {_company}</h1>";
 
             result.Append(receiptHeader);
         }
 
         private static void AddLineItemToHtmlReceipt(StringBuilder result, Line line, double lineItemAmmount)
         {
-            string lineItem = string.Format("<li>{0} x {1} {2} = {3}</li>", line.Quantity, line.Bike.Brand, line.Bike.Model, lineItemAmmount.ToString("C"));
+            string lineItem =
+                $"<li>{line.Quantity} x {line.Bike.Brand} {line.Bike.Model} = {lineItemAmmount:C}</li>";
 
             result.Append(lineItem);
         }
