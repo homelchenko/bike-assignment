@@ -28,23 +28,19 @@ namespace BikeDistributor
             if (_lines.Any())
             {
                 builder.StartLineItemsSection();
-                foreach (var line in _lines)
+                foreach (Line line in _lines)
                 {
                     double lineItemAmmount = CalculateLineItemTotal(line);
 
-                    builder.AddLineItemSection(line, lineItemAmmount);
-
                     totalAmmount += lineItemAmmount;
+
+                    builder.AddLineItemSection(line, lineItemAmmount);
                 }
 
                 builder.EndLineItemsSection();
             }
 
-            double tax = totalAmmount * TaxRate;
-
-            builder.AddSubTotalSection(totalAmmount);
-            builder.AddTaxSection(tax);
-            builder.AddTotalSection(totalAmmount + tax);
+            AddFooter(builder, totalAmmount, totalAmmount * TaxRate);
         }
 
         private static double CalculateLineItemTotal(Line line)
@@ -91,6 +87,13 @@ namespace BikeDistributor
         private static double ApplyDiscount(int price, double discount)
         {
             return price * (1 - discount);
+        }
+
+        private static void AddFooter(ReceiptBuilder builder, double totalAmmount, double tax)
+        {
+            builder.AddSubTotalSection(totalAmmount);
+            builder.AddTaxSection(tax);
+            builder.AddTotalSection(totalAmmount + tax);
         }
     }
 }
