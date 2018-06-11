@@ -9,13 +9,12 @@ namespace BikeDistributor
     {
         private const double TaxRate = .0725d;
         private readonly IList<Line> _lines = new List<Line>();
+        private readonly string _company;
 
         public Order(string company)
         {
-            Company = company;
+            this._company = company;
         }
-
-        public string Company { get; private set; }
 
         public void AddLine(Line line)
         {
@@ -25,7 +24,7 @@ namespace BikeDistributor
         public string Receipt()
         {
             var totalAmount = 0d;
-            var result = new StringBuilder(string.Format("Order Receipt for {0}{1}", Company, Environment.NewLine));
+            var result = new StringBuilder(string.Format("Order Receipt for {0}{1}", _company, Environment.NewLine));
             foreach (var line in _lines)
             {
                 var thisAmount = 0d;
@@ -63,7 +62,7 @@ namespace BikeDistributor
         public string HtmlReceipt()
         {
             var totalAmount = 0d;
-            var result = new StringBuilder(string.Format("<html><body><h1>Order Receipt for {0}</h1>", Company));
+            var result = new StringBuilder(string.Format("<html><body><h1>Order Receipt for {0}</h1>", _company));
             if (_lines.Any())
             {
                 result.Append("<ul>");
