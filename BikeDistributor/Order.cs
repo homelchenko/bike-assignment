@@ -29,7 +29,7 @@ namespace BikeDistributor
             {
                 double lineItemAmmount = CalculateLineItemTotal(line);
 
-                result.AppendLine(string.Format("\t{0} x {1} {2} = {3}", line.Quantity, line.Bike.Brand, line.Bike.Model, lineItemAmmount.ToString("C")));
+                AddLineItemToTextReceipt(result, line, lineItemAmmount);
 
                 totalAmount += lineItemAmmount;
             }
@@ -43,6 +43,13 @@ namespace BikeDistributor
             return result.ToString();
         }
 
+        private static void AddLineItemToTextReceipt(StringBuilder result, Line line, double lineItemAmmount)
+        {
+            string lineItem = string.Format("\t{0} x {1} {2} = {3}", line.Quantity, line.Bike.Brand, line.Bike.Model, lineItemAmmount.ToString("C"));
+            
+            result.AppendLine(lineItem);
+        }
+
         public string HtmlReceipt()
         {
             var totalAmount = 0d;
@@ -54,7 +61,7 @@ namespace BikeDistributor
                 {
                     double lineItemAmmount = CalculateLineItemTotal(line);
                     
-                    result.Append(string.Format("<li>{0} x {1} {2} = {3}</li>", line.Quantity, line.Bike.Brand, line.Bike.Model, lineItemAmmount.ToString("C")));
+                    AddLineItemToHtmlReceipt(result, line, lineItemAmmount);
                     
                     totalAmount += lineItemAmmount;
                 }
@@ -69,6 +76,13 @@ namespace BikeDistributor
             result.Append("</body></html>");
 
             return result.ToString();
+        }
+
+        private static void AddLineItemToHtmlReceipt(StringBuilder result, Line line, double lineItemAmmount)
+        {
+            string lineItem = string.Format("<li>{0} x {1} {2} = {3}</li>", line.Quantity, line.Bike.Brand, line.Bike.Model, lineItemAmmount.ToString("C"));
+
+            result.Append(lineItem);
         }
 
         private static double CalculateLineItemTotal(Line line)
