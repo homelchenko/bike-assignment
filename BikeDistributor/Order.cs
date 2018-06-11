@@ -48,9 +48,7 @@ namespace BikeDistributor
             switch (line.Bike.Price)
             {
                 case Bike.OneThousand:
-                    double calculateDiscountForOneThousand = CalculateDiscountForOneThousand(line);
-                    
-                    return line.ApplyDiscount(calculateDiscountForOneThousand);
+                    return line.ApplyDiscount(CalculateDiscountForOneThousand(line));
                 case Bike.TwoThousand:
                     return line.ApplyDiscount(CalculateDiscountForTwoThousand(line));
                 case Bike.FiveThousand:
