@@ -31,27 +31,21 @@ namespace BikeDistributor
                 switch (line.Bike.Price)
                 {
                     case Bike.OneThousand:
-                        int lineItemPrice = line.Quantity * line.Bike.Price;
-
                         double discountForOneThousand = CalculateDiscountForOneThousand(line);
 
-                        thisAmount = ApplyDiscount(lineItemPrice, discountForOneThousand);
+                        thisAmount = ApplyDiscount(line.Price, discountForOneThousand);
 
                         break;
                     case Bike.TwoThousand:
-                        int lineItemPriceBeforeDiscount2 = line.Quantity * line.Bike.Price;
-                        
                         double discountForTwoThousand = CalculateDiscountForTwoThousand(line);
 
-                        thisAmount = ApplyDiscount(lineItemPriceBeforeDiscount2, discountForTwoThousand);
+                        thisAmount = ApplyDiscount(line.Price, discountForTwoThousand);
 
                         break;
                     case Bike.FiveThousand:
-                        int lineItemPriceBeforeDiscount3 = line.Quantity * line.Bike.Price;
-                        
                         double discountForFiveThousand = CalculateDiscountForFiveThousand(line);
 
-                        thisAmount = ApplyDiscount(lineItemPriceBeforeDiscount3, discountForFiveThousand);
+                        thisAmount = ApplyDiscount(line.Price, discountForFiveThousand);
 
                         break;
                 }

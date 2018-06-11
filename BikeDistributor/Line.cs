@@ -10,5 +10,7 @@
 
         public Bike Bike { get; private set; }
         public int Quantity { get; private set; }
+
+        public int Price => Quantity * Bike.Price;
     }
 }
