@@ -23,63 +23,28 @@ namespace BikeDistributor
 
         public string Receipt()
         {
-            var totalAmount = 0d;
+            TextReceiptBuilder builder = new TextReceiptBuilder();
 
-            var result = new StringBuilder();
+            var totalAmmount = 0d;
 
-            AddHeaderToTextReceipt(result);
+            builder.AddHeader(_company);
 
             foreach (var line in _lines)
             {
                 double lineItemAmmount = CalculateLineItemTotal(line);
 
-                AddLineItemToTextReceipt(result, line, lineItemAmmount);
+                builder.AddLineItemSection(line, lineItemAmmount);
 
-                totalAmount += lineItemAmmount;
+                totalAmmount += lineItemAmmount;
             }
 
-            double tax = totalAmount * TaxRate;
+            double tax = totalAmmount * TaxRate;
 
-            AddSubTotalSectionToTextReceipt(result, totalAmount);
-            AddTaxSectionToTextReceipt(result, tax);
-            AddTotalSectionToTextReceipt(result, totalAmount + tax);
+            builder.AddSubTotalSection(totalAmmount);
+            builder.AddTaxSection(tax);
+            builder.AddTotalSection(totalAmmount + tax);
 
-            return result.ToString();
-        }
-
-        private static void AddTotalSectionToTextReceipt(StringBuilder result, double total)
-        {
-            string totalSection = $"Total: {total:C}";
-
-            result.Append(totalSection);
-        }
-
-        private static void AddTaxSectionToTextReceipt(StringBuilder result, double tax)
-        {
-            string taxSection = $"Tax: {tax:C}";
-
-            result.AppendLine(taxSection);
-        }
-
-        private static void AddSubTotalSectionToTextReceipt(StringBuilder result, double totalAmount)
-        {
-            string subTotalSection = $"Sub-Total: {totalAmount:C}";
-
-            result.AppendLine(subTotalSection);
-        }
-
-        private void AddHeaderToTextReceipt(StringBuilder result)
-        {
-            string receiptHeader = $"Order Receipt for {_company}{Environment.NewLine}";
-
-            result.Append(receiptHeader);
-        }
-
-        private static void AddLineItemToTextReceipt(StringBuilder result, Line line, double lineItemAmmount)
-        {
-            string lineItem = $"\t{line.Quantity} x {line.Bike.Brand} {line.Bike.Model} = {lineItemAmmount:C}";
-            
-            result.AppendLine(lineItem);
+            return builder.GetReceipt();
         }
 
         public string HtmlReceipt()
