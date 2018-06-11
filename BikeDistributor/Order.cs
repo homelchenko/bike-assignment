@@ -33,10 +33,13 @@ namespace BikeDistributor
 
                 totalAmount += lineItemAmmount;
             }
+
+            double tax = totalAmount * TaxRate;
+
             result.AppendLine(string.Format("Sub-Total: {0}", totalAmount.ToString("C")));
-            var tax = totalAmount * TaxRate;
             result.AppendLine(string.Format("Tax: {0}", tax.ToString("C")));
             result.Append(string.Format("Total: {0}", (totalAmount + tax).ToString("C")));
+
             return result.ToString();
         }
 
