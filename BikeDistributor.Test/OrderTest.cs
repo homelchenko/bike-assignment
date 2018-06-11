@@ -108,6 +108,18 @@ Total: $21,450.00");
         }
 
         [TestMethod]
+        public void HtmlReceipt_WhenPriceIsOneThousandAndThereAreTwentyItems_ShouldApplyTenPercentDiscountsAndGenerateProperHtmlReceipt()
+        {
+            // Arrange
+            Order order = CreateOneLineOrderFor(Bike.OneThousand, 20);
+
+            // Act & Assert
+            AssertHtmlReceiptForOrderIs(
+                order,
+                @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><ul><li>20 x Any brand Any model = $18,000.00</li></ul><h3>Sub-Total: $18,000.00</h3><h3>Tax: $1,305.00</h3><h2>Total: $19,305.00</h2></body></html>");
+        }
+
+        [TestMethod]
         public void HtmlReceipt_WhenPriceIsTwoThousandAndThereIsOnlyOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperHtmlReceipt()
         {
             // Arrange
@@ -120,6 +132,18 @@ Total: $21,450.00");
         }
 
         [TestMethod]
+        public void HtmlReceipt_WhenPriceIsTwoThousandAndThereAreTenItems_ShouldApplyTwentyPercentDiscountAndGenerateProperWebReceipt()
+        {
+            // Arrange
+            Order order = CreateOneLineOrderFor(Bike.TwoThousand, 10);
+
+            // Act
+            AssertHtmlReceiptForOrderIs(
+                order,
+                @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><ul><li>10 x Any brand Any model = $16,000.00</li></ul><h3>Sub-Total: $16,000.00</h3><h3>Tax: $1,160.00</h3><h2>Total: $17,160.00</h2></body></html>");
+        }
+
+        [TestMethod]
         public void HtmlReceipt_WhenPriceIsFiveThousandAndThereIsOnlyOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperHtmlReceipt()
         {
             // Arrange
@@ -129,6 +153,18 @@ Total: $21,450.00");
             AssertHtmlReceiptForOrderIs(
                 order,
                 @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><ul><li>1 x Any brand Any model = $5,000.00</li></ul><h3>Sub-Total: $5,000.00</h3><h3>Tax: $362.50</h3><h2>Total: $5,362.50</h2></body></html>");
+        }
+
+        [TestMethod]
+        public void HtmlReceipt_WhenPriceIsFiveThousandAndThereAreFiveItems_ShouldApplyTwentyPercentDiscountAndGenerateProperHtmlReceipt()
+        {
+            // Arrange
+            Order order = CreateOneLineOrderFor(Bike.FiveThousand, 5);
+
+            // Act & Assert
+            AssertHtmlReceiptForOrderIs(
+                order,
+                @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><ul><li>5 x Any brand Any model = $20,000.00</li></ul><h3>Sub-Total: $20,000.00</h3><h3>Tax: $1,450.00</h3><h2>Total: $21,450.00</h2></body></html>");
         }
 
         private static Order CreateOneLineOrderFor(int price, int quantity)
