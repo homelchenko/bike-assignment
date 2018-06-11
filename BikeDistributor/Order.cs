@@ -42,30 +42,17 @@ namespace BikeDistributor
 
         private static double CalculateLineItemTotal(Line line)
         {
-            var thisAmount = 0d;
             switch (line.Bike.Price)
             {
                 case Bike.OneThousand:
-                    double discountForOneThousand = CalculateDiscountForOneThousand(line);
-
-                    thisAmount = ApplyDiscount(line.Price, discountForOneThousand);
-
-                    break;
+                    return ApplyDiscount(line.Price, CalculateDiscountForOneThousand(line));
                 case Bike.TwoThousand:
-                    double discountForTwoThousand = CalculateDiscountForTwoThousand(line);
-
-                    thisAmount = ApplyDiscount(line.Price, discountForTwoThousand);
-
-                    break;
+                    return ApplyDiscount(line.Price, CalculateDiscountForTwoThousand(line));
                 case Bike.FiveThousand:
-                    double discountForFiveThousand = CalculateDiscountForFiveThousand(line);
-
-                    thisAmount = ApplyDiscount(line.Price, discountForFiveThousand);
-
-                    break;
+                    return ApplyDiscount(line.Price, CalculateDiscountForFiveThousand(line));
+                default:
+                    return 0d;
             }
-
-            return thisAmount;
         }
 
         private static double CalculateDiscountForOneThousand(Line line)
