@@ -2,7 +2,7 @@
 
 namespace BikeDistributor
 {
-    internal class HtmlReceiptBuilder : ReceiptBuilder
+    public class HtmlReceiptBuilder : ReceiptBuilder
     {
         private readonly StringBuilder _receipt = new StringBuilder();
         

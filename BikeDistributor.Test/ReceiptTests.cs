@@ -239,7 +239,7 @@ Total: $40,755.00");
                 @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><ul><li>20 x First brand First model = $18,000.00</li><li>5 x Second brand Second model = $20,000.00</li></ul><h3>Sub-Total: $38,000.00</h3><h3>Tax: $2,755.00</h3><h2>Total: $40,755.00</h2></body></html>");
         }
 
-        public static Order CreateOneLineOrderFor(int price, int quantity)
+        private static Order CreateOneLineOrderFor(int price, int quantity)
         {
             Bike bike = new Bike("Any brand", "Any model", price);
 
@@ -249,22 +249,28 @@ Total: $40,755.00");
             return order;
         }
 
-        public static void AssertTextReceiptForOrderIs(Order order, string expectedReceipt)
+        private static void AssertTextReceiptForOrderIs(Order order, string expectedReceipt)
         {
             // Act
-            string textReceipt = order.Receipt();
+            TextReceiptBuilder builder = new TextReceiptBuilder();
+
+            // Act
+            order.GenerateReceipt(builder);
 
             // Assert
-            Assert.AreEqual(expectedReceipt, textReceipt);
+            Assert.AreEqual(expectedReceipt, builder.GetReceipt());
         }
 
-        public static void AssertHtmlReceiptForOrderIs(Order order, string expectedReceipt)
+        private static void AssertHtmlReceiptForOrderIs(Order order, string expectedReceipt)
         {
+            // Arrange
+            var builder = new HtmlReceiptBuilder();
+
             // Act
-            string htmlReceipt = order.HtmlReceipt();
+            order.GenerateReceipt(builder);
 
             // Assert
-            Assert.AreEqual(expectedReceipt, htmlReceipt);
+            Assert.AreEqual(expectedReceipt, builder.GetReceipt());
         }
     }
 }

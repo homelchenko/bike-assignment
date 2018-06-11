@@ -1,6 +1,6 @@
 ﻿namespace BikeDistributor
 {
-    internal abstract class ReceiptBuilder
+    public abstract class ReceiptBuilder
     {
         public abstract void AddHeader(string company);
 

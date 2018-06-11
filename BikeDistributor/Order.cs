@@ -19,25 +19,7 @@ namespace BikeDistributor
             _lines.Add(line);
         }
 
-        public string Receipt()
-        {
-            TextReceiptBuilder builder = new TextReceiptBuilder();
-
-            GenerateReport(builder);
-
-            return builder.GetReceipt();
-        }
-
-        public string HtmlReceipt()
-        {
-            HtmlReceiptBuilder builder = new HtmlReceiptBuilder();
-
-            GenerateReport(builder);
-
-            return builder.GetReceipt();
-        }
-
-        private void GenerateReport(ReceiptBuilder builder)
+        public void GenerateReceipt(ReceiptBuilder builder)
         {
             builder.AddHeader(_company);
 

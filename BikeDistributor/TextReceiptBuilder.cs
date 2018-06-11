@@ -3,7 +3,7 @@ using System.Text;
 
 namespace BikeDistributor
 {
-    internal class TextReceiptBuilder : ReceiptBuilder
+    public class TextReceiptBuilder : ReceiptBuilder
     {
         private readonly StringBuilder _receipt = new StringBuilder();
 
