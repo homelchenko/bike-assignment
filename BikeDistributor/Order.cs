@@ -24,7 +24,11 @@ namespace BikeDistributor
         public string Receipt()
         {
             var totalAmount = 0d;
-            var result = new StringBuilder(string.Format("Order Receipt for {0}{1}", _company, Environment.NewLine));
+
+            var result = new StringBuilder();
+
+            AddHeaderToTextReceipt(result);
+
             foreach (var line in _lines)
             {
                 double lineItemAmmount = CalculateLineItemTotal(line);
@@ -43,6 +47,13 @@ namespace BikeDistributor
             return result.ToString();
         }
 
+        private void AddHeaderToTextReceipt(StringBuilder result)
+        {
+            string receiptHeader = string.Format("Order Receipt for {0}{1}", _company, Environment.NewLine);
+
+            result.Append(receiptHeader);
+        }
+
         private static void AddLineItemToTextReceipt(StringBuilder result, Line line, double lineItemAmmount)
         {
             string lineItem = string.Format("\t{0} x {1} {2} = {3}", line.Quantity, line.Bike.Brand, line.Bike.Model, lineItemAmmount.ToString("C"));
@@ -53,7 +64,11 @@ namespace BikeDistributor
         public string HtmlReceipt()
         {
             var totalAmount = 0d;
-            var result = new StringBuilder(string.Format("<html><body><h1>Order Receipt for {0}</h1>", _company));
+
+            var result = new StringBuilder();
+
+            AddHeaderToHtmlReceipt(result);
+
             if (_lines.Any())
             {
                 result.Append("<ul>");
@@ -76,6 +91,13 @@ namespace BikeDistributor
             result.Append("</body></html>");
 
             return result.ToString();
+        }
+
+        private void AddHeaderToHtmlReceipt(StringBuilder result)
+        {
+            string receiptHeader = string.Format("<html><body><h1>Order Receipt for {0}</h1>", _company);
+
+            result.Append(receiptHeader);
         }
 
         private static void AddLineItemToHtmlReceipt(StringBuilder result, Line line, double lineItemAmmount)
