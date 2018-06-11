@@ -150,7 +150,6 @@ Total: $40,755.00");
                 @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><h3>Sub-Total: $0.00</h3><h3>Tax: $0.00</h3><h2>Total: $0.00</h2></body></html>");
         }
 
-
         [TestMethod]
         public void HtmlReceipt_WhenPriceIsOneThousandAndThereIsOnlyOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperHtmlReceipt()
         {
