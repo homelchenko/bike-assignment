@@ -35,7 +35,7 @@ namespace BikeDistributor
 
                         double discountForOneThousand = CalculateDiscountForOneThousand(line);
 
-                        thisAmount += ApplyDiscount(lineItemPrice, discountForOneThousand);
+                        thisAmount = ApplyDiscount(lineItemPrice, discountForOneThousand);
 
                         break;
                     case Bike.TwoThousand:
@@ -43,7 +43,7 @@ namespace BikeDistributor
                         
                         double discountForTwoThousand = CalculateDiscountForTwoThousand(line);
 
-                        thisAmount += ApplyDiscount(lineItemPriceBeforeDiscount2, discountForTwoThousand);
+                        thisAmount = ApplyDiscount(lineItemPriceBeforeDiscount2, discountForTwoThousand);
 
                         break;
                     case Bike.FiveThousand:
@@ -51,7 +51,7 @@ namespace BikeDistributor
                         
                         double discountForFiveThousand = CalculateDiscountForFiveThousand(line);
 
-                        thisAmount += ApplyDiscount(lineItemPriceBeforeDiscount3, discountForFiveThousand);
+                        thisAmount = ApplyDiscount(lineItemPriceBeforeDiscount3, discountForFiveThousand);
 
                         break;
                 }
