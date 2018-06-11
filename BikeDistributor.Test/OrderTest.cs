@@ -10,7 +10,7 @@ namespace BikeDistributor.Test
         private readonly static Bike DuraAce = new Bike("Specialized", "S-Works Venge Dura-Ace", Bike.FiveThousand);
 
         [TestMethod]
-        public void Receipt_WhenOrderContainsOneDefy_ShouldGenerateProperTextReceipt()
+        public void Receipt_WhenThereIsOnlyOneItemThatConstsOneThousand_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
             var order = new Order("Anywhere Bike Shop");
@@ -30,7 +30,7 @@ Total: $1,072.50",
         }
 
         [TestMethod]
-        public void Receipt_WhenOrderContainsOneElite_ShouldGenerateProperTextReceipt()
+        public void Receipt_WhenThereIsOnlyOneItemThatConstsTwoThousand_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
             var order = new Order("Anywhere Bike Shop");
@@ -50,7 +50,7 @@ Total: $2,145.00",
         }
 
         [TestMethod]
-        public void Receipt_WhenOrderContainsOneDuraAce_ShouldGenerateProperTextReceipt()
+        public void Receipt_WhenThereIsOnlyOneItemThatConstsFiveThousand_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
             var order = new Order("Anywhere Bike Shop");
@@ -70,7 +70,7 @@ Total: $5,362.50",
         }
 
         [TestMethod]
-        public void HtmlReceipt_WhenOrderContainsOneDefy_ShouldGenerateProperHtmlReceipt()
+        public void HtmlReceipt_WhenThereIsOnlyOneItemThatConstsOneThousand_ShouldNotApplyAnyDiscountsAndGenerateProperHtmlReceipt()
         {
             // Arrange
             var order = new Order("Anywhere Bike Shop");
@@ -86,7 +86,7 @@ Total: $5,362.50",
         }
 
         [TestMethod]
-        public void HtmlReceipt_WhenOrderContainsOneElite_ShouldGenerateProperHtmlReceipt()
+        public void HtmlReceipt_WhenThereIsOnlyOneItemThatConstsTwoThousand_ShouldNotApplyAnyDiscountsAndGenerateProperHtmlReceipt()
         {
             // Arrange
             var order = new Order("Anywhere Bike Shop");
@@ -102,7 +102,7 @@ Total: $5,362.50",
         }
 
         [TestMethod]
-        public void HtmlReceipt_WhenOrderContainsOneDuraAce_ShouldGenerateProperHtmlReceipt()
+        public void HtmlReceipt_WhenThereIsOnlyOneItemThatConstsFiveThousand_ShouldNotApplyAnyDiscountsAndGenerateProperHtmlReceipt()
         {
             // Arrange
             var order = new Order("Anywhere Bike Shop");
