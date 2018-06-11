@@ -27,36 +27,45 @@ namespace BikeDistributor
             var result = new StringBuilder(string.Format("Order Receipt for {0}{1}", _company, Environment.NewLine));
             foreach (var line in _lines)
             {
-                var thisAmount = 0d;
-                switch (line.Bike.Price)
-                {
-                    case Bike.OneThousand:
-                        double discountForOneThousand = CalculateDiscountForOneThousand(line);
+                double lineItemAmmount = CalculateLineItemTotal(line);
 
-                        thisAmount = ApplyDiscount(line.Price, discountForOneThousand);
+                result.AppendLine(string.Format("\t{0} x {1} {2} = {3}", line.Quantity, line.Bike.Brand, line.Bike.Model, lineItemAmmount.ToString("C")));
 
-                        break;
-                    case Bike.TwoThousand:
-                        double discountForTwoThousand = CalculateDiscountForTwoThousand(line);
-
-                        thisAmount = ApplyDiscount(line.Price, discountForTwoThousand);
-
-                        break;
-                    case Bike.FiveThousand:
-                        double discountForFiveThousand = CalculateDiscountForFiveThousand(line);
-
-                        thisAmount = ApplyDiscount(line.Price, discountForFiveThousand);
-
-                        break;
-                }
-                result.AppendLine(string.Format("\t{0} x {1} {2} = {3}", line.Quantity, line.Bike.Brand, line.Bike.Model, thisAmount.ToString("C")));
-                totalAmount += thisAmount;
+                totalAmount += lineItemAmmount;
             }
             result.AppendLine(string.Format("Sub-Total: {0}", totalAmount.ToString("C")));
             var tax = totalAmount * TaxRate;
             result.AppendLine(string.Format("Tax: {0}", tax.ToString("C")));
             result.Append(string.Format("Total: {0}", (totalAmount + tax).ToString("C")));
             return result.ToString();
+        }
+
+        private static double CalculateLineItemTotal(Line line)
+        {
+            var thisAmount = 0d;
+            switch (line.Bike.Price)
+            {
+                case Bike.OneThousand:
+                    double discountForOneThousand = CalculateDiscountForOneThousand(line);
+
+                    thisAmount = ApplyDiscount(line.Price, discountForOneThousand);
+
+                    break;
+                case Bike.TwoThousand:
+                    double discountForTwoThousand = CalculateDiscountForTwoThousand(line);
+
+                    thisAmount = ApplyDiscount(line.Price, discountForTwoThousand);
+
+                    break;
+                case Bike.FiveThousand:
+                    double discountForFiveThousand = CalculateDiscountForFiveThousand(line);
+
+                    thisAmount = ApplyDiscount(line.Price, discountForFiveThousand);
+
+                    break;
+            }
+
+            return thisAmount;
         }
 
         private static double CalculateDiscountForOneThousand(Line line)
