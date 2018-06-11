@@ -5,7 +5,6 @@ namespace BikeDistributor.Test
     [TestClass]
     public class OrderTest
     {
-        private readonly static Bike Defy = new Bike("Giant", "Defy 1", Bike.OneThousand);
         private readonly static Bike Elite = new Bike("Specialized", "Venge Elite", Bike.TwoThousand);
         private readonly static Bike DuraAce = new Bike("Specialized", "S-Works Venge Dura-Ace", Bike.FiveThousand);
 
@@ -13,12 +12,12 @@ namespace BikeDistributor.Test
         public void Receipt_WhenPriceIsOneThousandAndThereIsOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
-            Order order = CreateOrderForDefy(quantity: 1);
+            Order order = CreateOneLineOrderFor(Bike.OneThousand, 1);
 
             // Act & Assert
             AssertTextReceiptForOrderIs(order,
 @"Order Receipt for Anywhere Bike Shop
-	1 x Giant Defy 1 = $1,000.00
+	1 x Any brand Any model = $1,000.00
 Sub-Total: $1,000.00
 Tax: $72.50
 Total: $1,072.50");
@@ -28,12 +27,12 @@ Total: $1,072.50");
         public void Receipt_WhenPriceIsOneThousandAndThereAreTwentyItems_ShouldApplyTenPercentDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
-            Order order = CreateOrderForDefy(quantity: 20);
+            Order order = CreateOneLineOrderFor(Bike.OneThousand, 20);
 
             // Act & Assert
             AssertTextReceiptForOrderIs(order,
 @"Order Receipt for Anywhere Bike Shop
-	20 x Giant Defy 1 = $18,000.00
+	20 x Any brand Any model = $18,000.00
 Sub-Total: $18,000.00
 Tax: $1,305.00
 Total: $19,305.00");
@@ -74,7 +73,7 @@ Total: $5,362.50");
         {
             // Arrange
             var order = new Order("Anywhere Bike Shop");
-            order.AddLine(new Line(Defy, 1));
+            order.AddLine(new Line(new Bike("Giant", "Defy 1", Bike.OneThousand), 1));
             
             // Act
             string htmlReceipt = order.HtmlReceipt();
@@ -117,10 +116,12 @@ Total: $5,362.50");
                 htmlReceipt);
         }
 
-        private static Order CreateOrderForDefy(int quantity)
+        private static Order CreateOneLineOrderFor(int price, int quantity)
         {
+            Bike bike = new Bike("Any brand", "Any model", price);
+
             var order = new Order("Anywhere Bike Shop");
-            order.AddLine(new Line(Defy, quantity));
+            order.AddLine(new Line(bike, quantity));
 
             return order;
         }
