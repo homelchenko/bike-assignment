@@ -42,12 +42,12 @@ Total: $19,305.00");
         public void Receipt_WhenPriceIsTwoThousandAndThereIsOnlyOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
-            Order order = CreateOrderForElite(quantity: 1);
+            Order order = CreateOneLineOrderFor(Bike.TwoThousand, 1);
 
             // Act & Arrange
             AssertTextReceiptForOrderIs(order,
 @"Order Receipt for Anywhere Bike Shop
-	1 x Specialized Venge Elite = $2,000.00
+	1 x Any brand Any model = $2,000.00
 Sub-Total: $2,000.00
 Tax: $145.00
 Total: $2,145.00");
@@ -57,12 +57,12 @@ Total: $2,145.00");
         public void Receipt_WhenPriceIsFiveThousandAndThereIsOnlyOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
-            Order order = CreateOrderForDuraAce(quantity: 1);
+            Order order = CreateOneLineOrderFor(Bike.FiveThousand, 1);
 
             // Act & Arrange
             AssertTextReceiptForOrderIs(order, 
 @"Order Receipt for Anywhere Bike Shop
-	1 x Specialized S-Works Venge Dura-Ace = $5,000.00
+	1 x Any brand Any model = $5,000.00
 Sub-Total: $5,000.00
 Tax: $362.50
 Total: $5,362.50");
@@ -122,22 +122,6 @@ Total: $5,362.50");
 
             var order = new Order("Anywhere Bike Shop");
             order.AddLine(new Line(bike, quantity));
-
-            return order;
-        }
-
-        private static Order CreateOrderForDuraAce(int quantity)
-        {
-            var order = new Order("Anywhere Bike Shop");
-            order.AddLine(new Line(DuraAce, quantity));
-
-            return order;
-        }
-
-        private static Order CreateOrderForElite(int quantity)
-        {
-            var order = new Order("Anywhere Bike Shop");
-            order.AddLine(new Line(Elite, quantity));
 
             return order;
         }
