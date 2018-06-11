@@ -31,22 +31,28 @@ namespace BikeDistributor
                 switch (line.Bike.Price)
                 {
                     case Bike.OneThousand:
-                        if (line.Quantity >= 20)
-                            thisAmount += line.Quantity * line.Bike.Price * .9d;
-                        else
-                            thisAmount += line.Quantity * line.Bike.Price;
+                        int lineItemPrice = line.Quantity * line.Bike.Price;
+
+                        double discountForOneThousand = CalculateDiscountForOneThousand(line);
+
+                        thisAmount += ApplyDiscount(lineItemPrice, discountForOneThousand);
+
                         break;
                     case Bike.TwoThousand:
-                        if (line.Quantity >= 10)
-                            thisAmount += line.Quantity * line.Bike.Price * .8d;
-                        else
-                            thisAmount += line.Quantity * line.Bike.Price;
+                        int lineItemPriceBeforeDiscount2 = line.Quantity * line.Bike.Price;
+                        
+                        double discountForTwoThousand = CalculateDiscountForTwoThousand(line);
+
+                        thisAmount += ApplyDiscount(lineItemPriceBeforeDiscount2, discountForTwoThousand);
+
                         break;
                     case Bike.FiveThousand:
-                        if (line.Quantity >= 5)
-                            thisAmount += line.Quantity * line.Bike.Price * .8d;
-                        else
-                            thisAmount += line.Quantity * line.Bike.Price;
+                        int lineItemPriceBeforeDiscount3 = line.Quantity * line.Bike.Price;
+                        
+                        double discountForFiveThousand = CalculateDiscountForFiveThousand(line);
+
+                        thisAmount += ApplyDiscount(lineItemPriceBeforeDiscount3, discountForFiveThousand);
+
                         break;
                 }
                 result.AppendLine(string.Format("\t{0} x {1} {2} = {3}", line.Quantity, line.Bike.Brand, line.Bike.Model, thisAmount.ToString("C")));
@@ -57,6 +63,45 @@ namespace BikeDistributor
             result.AppendLine(string.Format("Tax: {0}", tax.ToString("C")));
             result.Append(string.Format("Total: {0}", (totalAmount + tax).ToString("C")));
             return result.ToString();
+        }
+
+        private static double CalculateDiscountForOneThousand(Line line)
+        {
+            var discount = 0d;
+
+            if (line.Quantity >= 20)
+            {
+                discount = .1d;
+            }
+
+            return discount;
+        }
+
+        private static double CalculateDiscountForTwoThousand(Line line)
+        {
+            var discount = 0d;
+            if (line.Quantity >= 10)
+            {
+                discount = .2d;
+            }
+
+            return discount;
+        }
+
+        private static double CalculateDiscountForFiveThousand(Line line)
+        {
+            var discount = 0d;
+            if (line.Quantity >= 5)
+            {
+                discount = .2d;
+            }
+
+            return discount;
+        }
+
+        private static double ApplyDiscount(int price, double discount)
+        {
+            return price * (1 - discount);
         }
 
         public string HtmlReceipt()
