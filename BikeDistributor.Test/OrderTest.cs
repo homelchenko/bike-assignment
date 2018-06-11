@@ -10,7 +10,7 @@ namespace BikeDistributor.Test
         private readonly static Bike DuraAce = new Bike("Specialized", "S-Works Venge Dura-Ace", Bike.FiveThousand);
 
         [TestMethod]
-        public void Receipt_WhenPriceIsThousandAndThereIsOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
+        public void Receipt_WhenPriceIsOneThousandAndThereIsOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
             Order order = CreateOrderForDefy(quantity: 1);
@@ -25,7 +25,7 @@ Total: $1,072.50");
         }
 
         [TestMethod]
-        public void Receipt_WhenPriceIsThousandAndThereAreTwentyItems_ShouldApplyTenPercentDiscountsAndGenerateProperTextReceipt()
+        public void Receipt_WhenPriceIsOneThousandAndThereAreTwentyItems_ShouldApplyTenPercentDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
             Order order = CreateOrderForDefy(quantity: 20);
@@ -40,43 +40,33 @@ Total: $19,305.00");
         }
 
         [TestMethod]
-        public void Receipt_WhenThereIsOnlyOneItemThatConstsTwoThousand_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
+        public void Receipt_WhenPriceIsTwoThousandAndThereIsOnlyOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
-            var order = new Order("Anywhere Bike Shop");
-            order.AddLine(new Line(Elite, 1));
-            
-            // Act
-            string textReceive = order.Receipt();
+            Order order = CreateOrderForElite(quantity: 1);
 
-            // Assert
-            Assert.AreEqual(
+            // Act & Arrange
+            AssertTextReceiptForOrderIs(order,
 @"Order Receipt for Anywhere Bike Shop
 	1 x Specialized Venge Elite = $2,000.00
 Sub-Total: $2,000.00
 Tax: $145.00
-Total: $2,145.00",
-                textReceive);
+Total: $2,145.00");
         }
 
         [TestMethod]
-        public void Receipt_WhenThereIsOnlyOneItemThatConstsFiveThousand_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
+        public void Receipt_WhenPriceIsFiveThousandAndThereIsOnlyOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
-            var order = new Order("Anywhere Bike Shop");
-            order.AddLine(new Line(DuraAce, 1));
-            
-            // Act
-            string textReceipt = order.Receipt();
+            Order order = CreateOrderForDuraAce(quantity: 1);
 
-            // Arrange
-            Assert.AreEqual(
+            // Act & Arrange
+            AssertTextReceiptForOrderIs(order, 
 @"Order Receipt for Anywhere Bike Shop
 	1 x Specialized S-Works Venge Dura-Ace = $5,000.00
 Sub-Total: $5,000.00
 Tax: $362.50
-Total: $5,362.50",
-                textReceipt);
+Total: $5,362.50");
         }
 
         [TestMethod]
@@ -131,6 +121,23 @@ Total: $5,362.50",
         {
             var order = new Order("Anywhere Bike Shop");
             order.AddLine(new Line(Defy, quantity));
+
+            return order;
+        }
+
+        private static Order CreateOrderForDuraAce(int quantity)
+        {
+            var order = new Order("Anywhere Bike Shop");
+            order.AddLine(new Line(DuraAce, quantity));
+
+            return order;
+        }
+
+        private static Order CreateOrderForElite(int quantity)
+        {
+            var order = new Order("Anywhere Bike Shop");
+            order.AddLine(new Line(Elite, quantity));
+
             return order;
         }
 
