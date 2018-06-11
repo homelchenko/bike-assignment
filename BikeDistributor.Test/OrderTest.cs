@@ -5,9 +5,6 @@ namespace BikeDistributor.Test
     [TestClass]
     public class OrderTest
     {
-        private readonly static Bike Elite = new Bike("Specialized", "Venge Elite", Bike.TwoThousand);
-        private readonly static Bike DuraAce = new Bike("Specialized", "S-Works Venge Dura-Ace", Bike.FiveThousand);
-
         [TestMethod]
         public void Receipt_WhenPriceIsOneThousandAndThereIsOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
         {
@@ -99,51 +96,39 @@ Total: $21,450.00");
         }
 
         [TestMethod]
-        public void HtmlReceipt_WhenThereIsOnlyOneItemThatConstsOneThousand_ShouldNotApplyAnyDiscountsAndGenerateProperHtmlReceipt()
+        public void HtmlReceipt_WhenPriceIsOneThousandAndThereIsOnlyOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperHtmlReceipt()
         {
             // Arrange
-            var order = new Order("Anywhere Bike Shop");
-            order.AddLine(new Line(new Bike("Giant", "Defy 1", Bike.OneThousand), 1));
-            
-            // Act
-            string htmlReceipt = order.HtmlReceipt();
+            Order order = CreateOneLineOrderFor(Bike.OneThousand, 1);
 
-            // Assert
-            Assert.AreEqual(
-                @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><ul><li>1 x Giant Defy 1 = $1,000.00</li></ul><h3>Sub-Total: $1,000.00</h3><h3>Tax: $72.50</h3><h2>Total: $1,072.50</h2></body></html>",
-                htmlReceipt);
+            // Act & Assert
+            AssertHtmlReceiptForOrderIs(
+                order,
+                @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><ul><li>1 x Any brand Any model = $1,000.00</li></ul><h3>Sub-Total: $1,000.00</h3><h3>Tax: $72.50</h3><h2>Total: $1,072.50</h2></body></html>");
         }
 
         [TestMethod]
-        public void HtmlReceipt_WhenThereIsOnlyOneItemThatConstsTwoThousand_ShouldNotApplyAnyDiscountsAndGenerateProperHtmlReceipt()
+        public void HtmlReceipt_WhenPriceIsTwoThousandAndThereIsOnlyOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperHtmlReceipt()
         {
             // Arrange
-            var order = new Order("Anywhere Bike Shop");
-            order.AddLine(new Line(Elite, 1));
-            
-            // Act
-            string htmlReceipt = order.HtmlReceipt();
+            Order order = CreateOneLineOrderFor(Bike.TwoThousand, 1);
 
-            // Assert
-            Assert.AreEqual(
-                @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><ul><li>1 x Specialized Venge Elite = $2,000.00</li></ul><h3>Sub-Total: $2,000.00</h3><h3>Tax: $145.00</h3><h2>Total: $2,145.00</h2></body></html>",
-                htmlReceipt);
+            // Act
+            AssertHtmlReceiptForOrderIs(
+                order,
+                @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><ul><li>1 x Any brand Any model = $2,000.00</li></ul><h3>Sub-Total: $2,000.00</h3><h3>Tax: $145.00</h3><h2>Total: $2,145.00</h2></body></html>");
         }
 
         [TestMethod]
-        public void HtmlReceipt_WhenThereIsOnlyOneItemThatConstsFiveThousand_ShouldNotApplyAnyDiscountsAndGenerateProperHtmlReceipt()
+        public void HtmlReceipt_WhenPriceIsFiveThousandAndThereIsOnlyOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperHtmlReceipt()
         {
             // Arrange
-            var order = new Order("Anywhere Bike Shop");
-            order.AddLine(new Line(DuraAce, 1));
+            Order order = CreateOneLineOrderFor(Bike.FiveThousand, 1);
 
-            // Act
-            string htmlReceipt = order.HtmlReceipt();
-
-            // Arrange
-            Assert.AreEqual(
-                @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><ul><li>1 x Specialized S-Works Venge Dura-Ace = $5,000.00</li></ul><h3>Sub-Total: $5,000.00</h3><h3>Tax: $362.50</h3><h2>Total: $5,362.50</h2></body></html>",
-                htmlReceipt);
+            // Act & Assert
+            AssertHtmlReceiptForOrderIs(
+                order,
+                @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><ul><li>1 x Any brand Any model = $5,000.00</li></ul><h3>Sub-Total: $5,000.00</h3><h3>Tax: $362.50</h3><h2>Total: $5,362.50</h2></body></html>");
         }
 
         private static Order CreateOneLineOrderFor(int price, int quantity)
@@ -163,6 +148,15 @@ Total: $21,450.00");
 
             // Assert
             Assert.AreEqual(expectedReceipt, textReceipt);
+        }
+
+        private static void AssertHtmlReceiptForOrderIs(Order order, string expectedReceipt)
+        {
+            // Act
+            string htmlReceipt = order.HtmlReceipt();
+
+            // Assert
+            Assert.AreEqual(expectedReceipt, htmlReceipt);
         }
     }
 }
