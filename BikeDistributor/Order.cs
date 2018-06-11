@@ -23,35 +23,25 @@ namespace BikeDistributor
         {
             TextReceiptBuilder builder = new TextReceiptBuilder();
 
-            var totalAmmount = 0d;
-
-            builder.AddHeader(_company);
-
-            foreach (var line in _lines)
-            {
-                double lineItemAmmount = CalculateLineItemTotal(line);
-
-                builder.AddLineItemSection(line, lineItemAmmount);
-
-                totalAmmount += lineItemAmmount;
-            }
-
-            double tax = totalAmmount * TaxRate;
-
-            builder.AddSubTotalSection(totalAmmount);
-            builder.AddTaxSection(tax);
-            builder.AddTotalSection(totalAmmount + tax);
+            GenerateReport(builder);
 
             return builder.GetReceipt();
         }
 
         public string HtmlReceipt()
         {
-            var totalAmmount = 0d;
-
             HtmlReceiptBuilder builder = new HtmlReceiptBuilder();
 
+            GenerateReport(builder);
+
+            return builder.GetReceipt();
+        }
+
+        private void GenerateReport(ReceiptBuilder builder)
+        {
             builder.AddHeader(_company);
+
+            var totalAmmount = 0d;
 
             if (_lines.Any())
             {
@@ -59,7 +49,7 @@ namespace BikeDistributor
                 foreach (var line in _lines)
                 {
                     double lineItemAmmount = CalculateLineItemTotal(line);
-                    
+
                     builder.AddLineItemSection(line, lineItemAmmount);
 
                     totalAmmount += lineItemAmmount;
@@ -73,8 +63,6 @@ namespace BikeDistributor
             builder.AddSubTotalSection(totalAmmount);
             builder.AddTaxSection(tax);
             builder.AddTotalSection(totalAmmount + tax);
-            
-            return builder.GetReceipt();
         }
 
         private static double CalculateLineItemTotal(Line line)
