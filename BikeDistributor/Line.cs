@@ -8,9 +8,12 @@
             Quantity = quantity;
         }
 
-        public Bike Bike { get; private set; }
-        public int Quantity { get; private set; }
+        public Bike Bike { get; }
+        public int Quantity { get; }
 
-        public int Price => Quantity * Bike.Price;
+        public double ApplyDiscount(double discount)
+        {
+            return Quantity * Bike.Price * (1 - discount);
+        }
     }
 }

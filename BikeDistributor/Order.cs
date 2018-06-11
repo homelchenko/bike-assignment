@@ -48,11 +48,13 @@ namespace BikeDistributor
             switch (line.Bike.Price)
             {
                 case Bike.OneThousand:
-                    return ApplyDiscount(line.Price, CalculateDiscountForOneThousand(line));
+                    double calculateDiscountForOneThousand = CalculateDiscountForOneThousand(line);
+                    
+                    return line.ApplyDiscount(calculateDiscountForOneThousand);
                 case Bike.TwoThousand:
-                    return ApplyDiscount(line.Price, CalculateDiscountForTwoThousand(line));
+                    return line.ApplyDiscount(CalculateDiscountForTwoThousand(line));
                 case Bike.FiveThousand:
-                    return ApplyDiscount(line.Price, CalculateDiscountForFiveThousand(line));
+                    return line.ApplyDiscount(CalculateDiscountForFiveThousand(line));
                 default:
                     return 0d;
             }
@@ -82,11 +84,6 @@ namespace BikeDistributor
             }
 
             return discount;
-        }
-
-        private static double ApplyDiscount(int price, double discount)
-        {
-            return price * (1 - discount);
         }
 
         private static void AddFooter(ReceiptBuilder builder, double totalAmmount, double tax)
