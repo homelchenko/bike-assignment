@@ -13,40 +13,30 @@ namespace BikeDistributor.Test
         public void Receipt_WhenPriceIsThousandAndThereIsOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
-            var order = new Order("Anywhere Bike Shop");
-            order.AddLine(new Line(Defy, 1));
-            
-            // Act
-            string textReceipt = order.Receipt();
+            Order order = CreateOrderForDefy(quantity: 1);
 
-            // Assert
-            Assert.AreEqual(
+            // Act & Assert
+            AssertTextReceiptForOrderIs(order,
 @"Order Receipt for Anywhere Bike Shop
 	1 x Giant Defy 1 = $1,000.00
 Sub-Total: $1,000.00
 Tax: $72.50
-Total: $1,072.50",
-                textReceipt);
+Total: $1,072.50");
         }
 
         [TestMethod]
         public void Receipt_WhenPriceIsThousandAndThereAreTwentyItems_ShouldApplyTenPercentDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
-            var order = new Order("Anywhere Bike Shop");
-            order.AddLine(new Line(Defy, 20));
-            
-            // Act
-            string textReceipt = order.Receipt();
+            Order order = CreateOrderForDefy(quantity: 20);
 
-            // Assert
-            Assert.AreEqual(
+            // Act & Assert
+            AssertTextReceiptForOrderIs(order,
 @"Order Receipt for Anywhere Bike Shop
 	20 x Giant Defy 1 = $18,000.00
 Sub-Total: $18,000.00
 Tax: $1,305.00
-Total: $19,305.00",
-                textReceipt);
+Total: $19,305.00");
         }
 
         [TestMethod]
@@ -135,6 +125,22 @@ Total: $5,362.50",
             Assert.AreEqual(
                 @"<html><body><h1>Order Receipt for Anywhere Bike Shop</h1><ul><li>1 x Specialized S-Works Venge Dura-Ace = $5,000.00</li></ul><h3>Sub-Total: $5,000.00</h3><h3>Tax: $362.50</h3><h2>Total: $5,362.50</h2></body></html>",
                 htmlReceipt);
+        }
+
+        private static Order CreateOrderForDefy(int quantity)
+        {
+            var order = new Order("Anywhere Bike Shop");
+            order.AddLine(new Line(Defy, quantity));
+            return order;
+        }
+
+        private static void AssertTextReceiptForOrderIs(Order order, string expectedReceipt)
+        {
+            // Act
+            string textReceipt = order.Receipt();
+
+            // Assert
+            Assert.AreEqual(expectedReceipt, textReceipt);
         }
     }
 }
