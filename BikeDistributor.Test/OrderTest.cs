@@ -10,7 +10,7 @@ namespace BikeDistributor.Test
         private readonly static Bike DuraAce = new Bike("Specialized", "S-Works Venge Dura-Ace", Bike.FiveThousand);
 
         [TestMethod]
-        public void Receipt_WhenThereIsOnlyOneItemThatConstsOneThousand_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
+        public void Receipt_WhenPriceIsThousandAndThereIsOneItem_ShouldNotApplyAnyDiscountsAndGenerateProperTextReceipt()
         {
             // Arrange
             var order = new Order("Anywhere Bike Shop");
@@ -26,6 +26,26 @@ namespace BikeDistributor.Test
 Sub-Total: $1,000.00
 Tax: $72.50
 Total: $1,072.50",
+                textReceipt);
+        }
+
+        [TestMethod]
+        public void Receipt_WhenPriceIsThousandAndThereAreTwentyItems_ShouldApplyTenPercentDiscountsAndGenerateProperTextReceipt()
+        {
+            // Arrange
+            var order = new Order("Anywhere Bike Shop");
+            order.AddLine(new Line(Defy, 20));
+            
+            // Act
+            string textReceipt = order.Receipt();
+
+            // Assert
+            Assert.AreEqual(
+@"Order Receipt for Anywhere Bike Shop
+	20 x Giant Defy 1 = $18,000.00
+Sub-Total: $18,000.00
+Tax: $1,305.00
+Total: $19,305.00",
                 textReceipt);
         }
 
@@ -118,5 +138,3 @@ Total: $5,362.50",
         }
     }
 }
-
-
