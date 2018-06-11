@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace BikeDistributor
 {
@@ -49,72 +47,34 @@ namespace BikeDistributor
 
         public string HtmlReceipt()
         {
-            var totalAmount = 0d;
+            var totalAmmount = 0d;
 
-            var result = new StringBuilder();
-            result.Append("<html><body>");
+            HtmlReceiptBuilder builder = new HtmlReceiptBuilder();
 
-            AddHeaderToHtmlReceipt(result);
+            builder.AddHeader(_company);
 
             if (_lines.Any())
             {
-                result.Append("<ul>");
+                builder.StartLineItemsSection();
                 foreach (var line in _lines)
                 {
                     double lineItemAmmount = CalculateLineItemTotal(line);
                     
-                    AddLineItemToHtmlReceipt(result, line, lineItemAmmount);
-                    
-                    totalAmount += lineItemAmmount;
+                    builder.AddLineItemSection(line, lineItemAmmount);
+
+                    totalAmmount += lineItemAmmount;
                 }
-                result.Append("</ul>");
+
+                builder.EndLineItemsSection();
             }
 
-            double tax = totalAmount * TaxRate;
+            double tax = totalAmmount * TaxRate;
 
-            AddSubTotalToHtmlReceipt(result, totalAmount);
-            AddTaxSectionToHtmlReceipt(result, tax);
-            AddTotalToHtmlReceipt(result, totalAmount + tax);
+            builder.AddSubTotalSection(totalAmmount);
+            builder.AddTaxSection(tax);
+            builder.AddTotalSection(totalAmmount + tax);
             
-            result.Append("</body></html>");
-
-            return result.ToString();
-        }
-
-        private static void AddTotalToHtmlReceipt(StringBuilder result, double total)
-        {
-            string totalSection = $"<h2>Total: {total:C}</h2>";
-
-            result.Append(totalSection);
-        }
-
-        private static void AddTaxSectionToHtmlReceipt(StringBuilder result, double tax)
-        {
-            string taxSection = $"<h3>Tax: {tax:C}</h3>";
-
-            result.Append(taxSection);
-        }
-
-        private static void AddSubTotalToHtmlReceipt(StringBuilder result, double totalAmount)
-        {
-            string subTotalSection = $"<h3>Sub-Total: {totalAmount:C}</h3>";
-
-            result.Append(subTotalSection);
-        }
-
-        private void AddHeaderToHtmlReceipt(StringBuilder result)
-        {
-            string receiptHeader = $"<h1>Order Receipt for {_company}</h1>";
-
-            result.Append(receiptHeader);
-        }
-
-        private static void AddLineItemToHtmlReceipt(StringBuilder result, Line line, double lineItemAmmount)
-        {
-            string lineItem =
-                $"<li>{line.Quantity} x {line.Bike.Brand} {line.Bike.Model} = {lineItemAmmount:C}</li>";
-
-            result.Append(lineItem);
+            return builder.GetReceipt();
         }
 
         private static double CalculateLineItemTotal(Line line)

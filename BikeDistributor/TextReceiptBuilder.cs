@@ -21,11 +21,19 @@ namespace BikeDistributor
             _receipt.AppendLine(lineItem);
         }
 
+        public override void StartLineItemsSection()
+        {
+        }
+
         public override void AddSubTotalSection(double subTotal)
         {
             string subTotalSection = $"Sub-Total: {subTotal:C}";
 
             _receipt.AppendLine(subTotalSection);
+        }
+
+        public override void EndLineItemsSection()
+        {
         }
 
         public override void AddTaxSection(double tax)
