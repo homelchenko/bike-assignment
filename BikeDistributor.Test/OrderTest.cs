@@ -70,7 +70,7 @@ Total: $5,362.50",
         }
 
         [TestMethod]
-        public void Receipt_WhenOrderContainsOneDefy_ShouldGenerateProperHtmlReceipt()
+        public void HtmlReceipt_WhenOrderContainsOneDefy_ShouldGenerateProperHtmlReceipt()
         {
             // Arrange
             var order = new Order("Anywhere Bike Shop");
@@ -86,7 +86,7 @@ Total: $5,362.50",
         }
 
         [TestMethod]
-        public void Receipt_WhenOrderContainsOneElite_ShouldGenerateProperHtmlReceipt()
+        public void HtmlReceipt_WhenOrderContainsOneElite_ShouldGenerateProperHtmlReceipt()
         {
             // Arrange
             var order = new Order("Anywhere Bike Shop");
@@ -102,7 +102,7 @@ Total: $5,362.50",
         }
 
         [TestMethod]
-        public void Receipt_WhenOrderContainsOneDuraAce_ShouldGenerateProperHtmlReceipt()
+        public void HtmlReceipt_WhenOrderContainsOneDuraAce_ShouldGenerateProperHtmlReceipt()
         {
             // Arrange
             var order = new Order("Anywhere Bike Shop");
